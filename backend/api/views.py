@@ -13,9 +13,17 @@ from rest_framework.decorators import api_view, permission_classes
 
 
 from referrals.models import RefCodes
-from .serializers import RefCodesSerializer, EmailSerializer
+from .serializers import RefCodesSerializer, EmailSerializer, UserRetriveSerializer
 
 User = get_user_model()
+
+class UserViewSet(mixins.RetrieveModelMixin,
+                  viewsets.GenericViewSet):
+    
+    queryset = User.objects.all()
+    serializer_class = UserRetriveSerializer
+    permission_classes = (AllowAny, )
+    http_method_names = ['get', 'post']
 
 
 class RefCodesViewSet(APIView):

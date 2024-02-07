@@ -52,8 +52,26 @@ class UserSerializer(serializers.ModelSerializer):
                   'username',)
 
 
+class InviteeSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='invitee')
+    last_name = serializers.CharField(source='invitee')
+    email = serializers.EmailField(source='invitee')
+    id = serializers.PrimaryKeyRelatedField(source='invitee',
+                                  read_only=True)
+    
+    class Meta:
+        model = Invited
+        fields = (
+            'id',
+            'username',
+            'last_name',
+            'email',
+        )
+
+
 class UserRetriveSerializer(serializers.ModelSerializer):
-    referrals = UserSerializer()
+    invitee = InviteeSerializer(source='referrer', many=True)
+
     class Meta:
         model = User
         fields = ('id',
@@ -61,7 +79,8 @@ class UserRetriveSerializer(serializers.ModelSerializer):
                   'last_name',
                   'email',
                   'username',
-                  'referrals')
+                  'invitee'
+                  )
 
 
 class InvitedSerializer(serializers.ModelSerializer):
