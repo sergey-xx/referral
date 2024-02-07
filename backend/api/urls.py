@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import RefCodesViewSet
+from .views import RefCodesViewSet, send_code
 router = DefaultRouter()
 
 # router.register('code',
@@ -10,6 +10,9 @@ router = DefaultRouter()
 
 
 urlpatterns = [
+    path('sendcode/',
+         send_code,
+         name='semd_code'),
     path('code/', RefCodesViewSet.as_view()),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),

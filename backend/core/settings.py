@@ -133,3 +133,12 @@ SIMPLE_JWT = {
    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
    'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+DJOSER = {
+    'SERIALIZERS': {
+       'user_create': 'api.serializers.UserCreateSerializer', },
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+SERVER_EMAIL = 'from@example.com'

@@ -16,14 +16,14 @@ class RefCodes(models.Model):
 
 
 class Invited(models.Model):
-    referrer = models.OneToOneField(User,
-                                   verbose_name='Пригласивший',
-                                   related_name='referrer',
+    referrer = models.ForeignKey(User,
+                                 verbose_name='Пригласивший',
+                                 related_name='referrer',
+                                 on_delete=models.CASCADE)
+    invitee = models.OneToOneField(User,
+                                   verbose_name='Приглашенный',
+                                   related_name='invitee',
                                    on_delete=models.CASCADE)
-    invitee = models.ForeignKey(User,
-                                verbose_name='Приглашенный',
-                                related_name='invitee',
-                                on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Пригласивший/Приглашенный'
@@ -32,3 +32,4 @@ class Invited(models.Model):
             fields=['referrer', 'invitee'],
             name='unique_referrer_invitee'
         )]
+
