@@ -13,3 +13,12 @@ docker compose up
 ```
 docker compose exec backend python manage.py migrate
 ```
+
+Документация:
+
+
+backend\docs\schema.yaml
+
+
+Запрос к API hunter.io осуществляется в celery worker контейнере.
+Ответ от API можно увидеть там же или в БД.

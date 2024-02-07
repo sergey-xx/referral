@@ -12,7 +12,7 @@ router.register('users',
 urlpatterns = [
     path('sendcode/',
          send_code,
-         name='semd_code'),
+         name='send_code'),
     path('code/', RefCodesViewSet.as_view()),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),

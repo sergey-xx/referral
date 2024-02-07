@@ -4,6 +4,7 @@ from django.db import models
 
 User = get_user_model()
 
+
 class RefCodes(models.Model):
     code = models.CharField(max_length=50)
     pub_date = models.DateTimeField(auto_now_add=True,
@@ -32,4 +33,3 @@ class Invited(models.Model):
             fields=['referrer', 'invitee'],
             name='unique_referrer_invitee'
         )]
-

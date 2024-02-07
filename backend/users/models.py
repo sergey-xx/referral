@@ -10,7 +10,6 @@ class CustomUser(AbstractUser):
     last_name = models.CharField('Фамилия', max_length=150, blank=False)
 
 
-
 class MailChek(models.Model):
 
     status = models.CharField(max_length=10)

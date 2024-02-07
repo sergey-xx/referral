@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from celery import shared_task
 
-from time import sleep
 from users.models import MailChek
 
 
@@ -20,8 +19,6 @@ params = {'email': email,
 
 @shared_task()
 def check_email(email):
-    print('>>>>>>>>>>!!!!!!!!!!!')
-    print(email)
     params = {'email': email,
               'api_key': settings.API_TOKEN}
     req = PreparedRequest()

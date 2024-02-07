@@ -7,6 +7,7 @@ from utils.tasts import check_email
 
 User = get_user_model()
 
+
 class RefCodesSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -24,7 +25,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
                   'email',
                   'username',
                   'code')
-    
+
     def validate_code(self, code):
         if not RefCodes.objects.filter(code=code).exists():
             raise serializers.ValidationError('Код не найден!')
@@ -32,12 +33,11 @@ class UserCreateSerializer(serializers.ModelSerializer):
         if exp_date < date.today():
             raise serializers.ValidationError('Код просрочен!')
         return code
-    
+
     def create(self, validated_data):
         code = validated_data.pop('code')
         instance = super(UserCreateSerializer, self).create(validated_data)
         referrer = User.objects.filter(code__code=code).first()
-        invitee = User.objects.get(id=instance.id)
         Invited.objects.create(referrer=referrer, invitee=instance)
         check_email.delay(instance.email)
         return instance
@@ -59,8 +59,8 @@ class InviteeSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(source='invitee')
     email = serializers.EmailField(source='invitee')
     id = serializers.PrimaryKeyRelatedField(source='invitee',
-                                  read_only=True)
-    
+                                            read_only=True)
+
     class Meta:
         model = Invited
         fields = (
