@@ -3,6 +3,7 @@ from rest_framework import serializers
 from referrals.models import RefCodes, Invited
 from django.contrib.auth import get_user_model
 from datetime import date
+from utils.tasts import check_email
 
 User = get_user_model()
 
@@ -38,6 +39,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         referrer = User.objects.filter(code__code=code).first()
         invitee = User.objects.get(id=instance.id)
         Invited.objects.create(referrer=referrer, invitee=instance)
+        check_email.delay(instance.email)
         return instance
 
 
@@ -98,8 +100,6 @@ class EmailSerializer(serializers.Serializer):
         fields = ('email',)
 
     def validate_email(self, email):
-        print('>>>>>>>>>>>>>>')
-        print(email)
         if not User.objects.filter(email=email).exists():
             raise serializers.ValidationError('Почта не зарегистрирована!')
         return email

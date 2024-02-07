@@ -19,7 +19,7 @@ User = get_user_model()
 
 class UserViewSet(mixins.RetrieveModelMixin,
                   viewsets.GenericViewSet):
-    
+
     queryset = User.objects.all()
     serializer_class = UserRetriveSerializer
     permission_classes = (AllowAny, )
