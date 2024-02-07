@@ -11,13 +11,24 @@ class RefCodes(models.Model):
     expiration = models.DateField(verbose_name='Дата истечения')
     user = models.OneToOneField(User,
                                 verbose_name='Создатель',
-                                related_name='code')
-    
+                                related_name='code',
+                                on_delete=models.CASCADE)
+
 
 class Invited(models.Model):
     referrer = models.OneToOneField(User,
                                    verbose_name='Пригласивший',
-                                   related_name='referrer')
+                                   related_name='referrer',
+                                   on_delete=models.CASCADE)
     invitee = models.ForeignKey(User,
                                 verbose_name='Приглашенный',
-                                related_name='invitee')
+                                related_name='invitee',
+                                on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Пригласивший/Приглашенный'
+        verbose_name_plural = 'Пригласившие/Приглашенные'
+        constraints = [models.UniqueConstraint(
+            fields=['referrer', 'invitee'],
+            name='unique_referrer_invitee'
+        )]
